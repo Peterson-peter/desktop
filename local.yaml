@@ -22,9 +22,15 @@
       apt_repository:
         repo: "{{ item }}"
       loop: 
-        -  "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main"
         -  "deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ansible_distribution_release}} stable"
         -  "deb [arch=amd64] https://packages.microsoft.com/repos/azure-cli/ {{ansible_distribution_release}} main"
+    
+    - name: Add VScode package respository
+      apt_repository:
+        repo: deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main
+        state: present
+
+
 
     - name: Enable Universe package respository 
       apt_repository:
