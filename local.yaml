@@ -75,7 +75,6 @@
         creates: /snap/bin/kubectl
 
     - name: Create AppCenter dev folders
-      become: false
       file:
         path: "{{item}}"
         state: directory
