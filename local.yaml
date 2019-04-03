@@ -83,10 +83,11 @@
         creates: /snap/bin/kubectl
 
     - name: Create AppCenter dev folders
+      become: no
       file:
         path: "{{item}}"
         state: directory
-        mode: 0644
+        mode: 0700
       with_items:
         - ~/.acdev/secrets
         - ~/.acdev/tools/dotnet-pfxcert
