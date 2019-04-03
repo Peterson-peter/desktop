@@ -3,6 +3,7 @@
   connection: local
   become: true
   tasks: 
+
     - name: Add Microsoft GPG key
       apt:
         state: present
@@ -22,6 +23,14 @@
         -  "deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ansible_distribution_release}} stable"
         -  "deb [arch=amd64] https://packages.microsoft.com/repos/azure-cli/ {{ansible_distribution_release}} main"
 
+    - name: Enable Universe package respository 
+      apt_repository:
+        repo: "{{ item }}"
+      loop:
+        - "deb http://archive.ubuntu.com/ubuntu/ bionic universe"
+        - "deb http://archive.ubuntu.com/ubuntu/ bionic-updates universe"
+        - "deb http://security.ubuntu.com/ubuntu/ bionic-security universe"
+
     - name: Update Apt cache
       apt: 
         update_cache: yes
@@ -40,28 +49,8 @@
           - azure-cli
           - git
           - terminator
-
-    - name: Add Microsoft package feed for .net sdk
-      apt:
-        deb: https://packages.microsoft.com/config/ubuntu/18.04/packages-microsoft-prod.deb
-
-    - name: Enable Universe package respository 
-      apt_repository:
-        repo: "{{ item }}"
-      loop:
-        - "deb http://archive.ubuntu.com/ubuntu/ bionic universe"
-        - "deb http://archive.ubuntu.com/ubuntu/ bionic-updates universe"
-        - "deb http://security.ubuntu.com/ubuntu/ bionic-security universe"
-
-    - name: Update Apt cache ... again
-      apt:
-        update_cache: yes
-
-    - name: Install dotnet-sdk
-      apt:
-        name: dotnet-sdk-2.2
-        name: docker-ce 
-        state: present
+          - dotnet-sdk-2.2
+          - docker-ce
 
     - name: adding current user to group docker
       user:
