@@ -81,9 +81,10 @@
         state: directory
         mode: 0644
       with_items:
-        - ["~/.acdev/secrets", "~/.acdev/tools/dotnet-pfxcert", "~/.acdev/tools/trusted-certs"]  
+        - ~/.acdev/secrets
+        - ~/.acdev/tools/dotnet-pfxcert
+        - ~/.acdev/tools/trusted-certs
 
-    
     - name: Add VScode Liveshare Extention Pack
       become: false
       command: code --install-extension ms-vsliveshare.vsliveshare-pack
