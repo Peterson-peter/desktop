@@ -11,6 +11,7 @@
 
     - name: Add Microsoft VScode and docker package key
       apt_key: url=https://packages.microsoft.com/keys/microsoft.asc
+      keyring: /etc/apt/trusted.gpg.d/microsoft.gpg
 
     - name: Add docker package key
       apt_key: url=https://download.docker.com/linux/ubuntu/gpg
@@ -34,8 +35,9 @@
     - name: Update Apt cache
       apt: 
         update_cache: yes
+    - name: install 
 
-    - name: Add VScode and dependancies
+    - name: Add all the packages.
       apt: 
         name: "{{ packages }}"
       vars:
@@ -51,6 +53,7 @@
           - terminator
           - dotnet-sdk-2.2
           - docker-ce
+
 
     - name: adding current user to group docker
       user:
