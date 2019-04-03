@@ -35,7 +35,6 @@
     - name: Update Apt cache
       apt: 
         update_cache: yes
-    - name: install 
 
     - name: Add all the packages.
       apt: 
