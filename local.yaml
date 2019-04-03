@@ -74,11 +74,15 @@
       args:
         creates: /snap/bin/kubectl
 
-    - name: Create AppCenter secrets folder  
+    - name: Create AppCenter dev folders
+      become: false
       file:
-        path: ~/.acdev/secrets
+        path: "{{item}}"
         state: directory
         mode: 0644
+      with_items:
+        - ["~/.acdev/secrets", "~/.acdev/tools/dotnet-pfxcert", "~/.acdev/tools/trusted-certs"]  
+
     
     - name: Add VScode Liveshare Extention Pack
       become: false
