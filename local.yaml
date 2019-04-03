@@ -152,7 +152,8 @@
 
     - name: Extract and install DotNet-PFX cert
       unarchive:
-        url: https://avalanchebuildsupport.blob.core.windows.net/files/dotnet-pfxcert.zip
+        src: https://avalanchebuildsupport.blob.core.windows.net/files/dotnet-pfxcert.zip
         dest: ~/.acdev/tools/dotnet-pfxcert
         mode: 0644
+        remote_src: yes
   
