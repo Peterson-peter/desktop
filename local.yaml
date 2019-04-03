@@ -1,0 +1,107 @@
+- name: configure local host for AppCeneter developement work
+  hosts: 127.0.0.1
+  connection: local
+  become: true
+  tasks: 
+    - name: Add Microsoft GPG key
+      apt:
+        state: present
+        deb: https://packages.microsoft.com/config/ubuntu/18.04/packages-microsoft-prod.deb
+
+    - name: Add Microsoft VScode and docker package key
+      apt_key: url=https://packages.microsoft.com/keys/microsoft.asc
+
+    - name: Add docker package key
+      apt_key: url=https://download.docker.com/linux/ubuntu/gpg
+
+    - name: Add Microsoft package repository 
+      apt_repository:
+        repo: "{{ item }}"
+      loop: 
+        -  "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main"
+        -  "deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ansible_distribution_release}} stable"
+        -  "deb [arch=amd64] https://packages.microsoft.com/repos/azure-cli/ {{ansible_distribution_release}} main"
+
+    - name: Update Apt cache
+      apt: 
+        update_cache: yes
+
+    - name: Add VScode and dependancies
+      apt: 
+        name: "{{ packages }}"
+      vars:
+        packages:
+          - apt-transport-https
+          - curl
+          - ca-certificates
+          - software-properties-common
+          - docker-compose
+          - powershell
+          - azure-cli
+          - git
+          - terminator
+
+    - name: Add Microsoft package feed for .net sdk
+      apt:
+        deb: https://packages.microsoft.com/config/ubuntu/18.04/packages-microsoft-prod.deb
+
+    - name: Enable Universe package respository 
+      apt_repository:
+        repo: "{{ item }}"
+      loop:
+        - "deb http://archive.ubuntu.com/ubuntu/ bionic universe"
+        - "deb http://archive.ubuntu.com/ubuntu/ bionic-updates universe"
+        - "deb http://security.ubuntu.com/ubuntu/ bionic-security universe"
+
+    - name: Update Apt cache ... again
+      apt:
+        update_cache: yes
+
+    - name: Install dotnet-sdk
+      apt:
+        name: dotnet-sdk-2.2
+        name: docker-ce 
+        state: present
+
+    - name: adding current user to group docker
+      user:
+        name={{ lookup('env', "USER") }}
+        groups=docker
+        append=yes
+
+    - name: Install kubectl 
+      command: snap install kubectl --classic
+      args:
+        creates: /snap/bin/kubectl
+
+    - name: Create AppCenter secrets folder  
+      file:
+        path: ~/.acdev/secrets
+        state: directory
+        mode: 0644
+
+    - name: Add VScode Extention C#
+      become: false 
+      command: code --install-extension "{{ item }}"
+      loop:
+        - ms-vscode.csharp
+        - editorconfig.editorconfig
+        - formulahendry.dotnet-test-explorer
+        - peterjausovec.vscode-docker
+        - ms-kubernetes-tools.vscode-kubernetes-tools
+        - ms-vsliveshare.vsliveshare
+        - ms-vsliveshare.vsliveshare-pack
+      args:
+        creates: 
+        -  ~/.vscode/extensions/ms-vsliveshare.vsliveshare-pack-0.2.10/package.json
+        -  ~/.vscode/extensions/editorconfig.editorconfig-0.13.0/package.json
+        -  ~/.vscode/extensions/formulahendry.dotnet-test-explorer-0.6.5/package.json
+        -  ~/.vscode/extensions/karigari.chat-0.12.0/package.json
+        -  ~/.vscode/extensions/ms-kubernetes-tools.vscode-kubernetes-tools-0.1.18/package.json
+        -  ~/.vscode/extensions/ms-vscode.csharp-1.18.0/package.json
+        -  ~/.vscode/extensions/ms-vsliveshare.vsliveshare-0.3.1403/package.json
+        -  ~/.vscode/extensions/peterjausovec.vscode-docker-0.6.1/package.json
+        -  ~/.vscode/extensions/redhat.vscode-yaml-0.4.0/package.json
+
+- name: download secrets info folder
+  
