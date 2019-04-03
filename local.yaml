@@ -68,7 +68,6 @@
           - docker-ce
           - code
 
-
     - name: adding current user to group docker
       become: yes
       user:
@@ -134,24 +133,28 @@
         creates:  ~/.vscode/extensions/redhat.vscode-yaml-0.4.0/package.json        
 
     - name: Download and install MS cert microsoft-internal-ca.D17697.crt
+      become: no
       get_url:
         url: https://avalanchebuildsupport.blob.core.windows.net/files/microsoft-internal-ca.D17697.crt
         dest: ~/.acdev/tools/trusted-certs/microsoft-internal-ca.D17697.crt
         mode: 0644
 
     - name: Download and install MS cert msit-ca-z2.37AB15.crt
+      become: no
       get_url:
         url: https://avalanchebuildsupport.blob.core.windows.net/files/msit-ca-z2.37AB15.crt
         dest: ~/.acdev/tools/trusted-certs/msit-ca-z2.37AB15.crt
         mode: 0644
 
     - name: Download and install MS cert msit-ca-z2.377667.crt
+      become: no
       get_url:
         url: https://avalanchebuildsupport.blob.core.windows.net/files/msit-ca-z2.377667.crt
         dest: ~/.acdev/tools/trusted-certs/msit-ca-z2.377667.crt
         mode: 0644
 
     - name: Extract and install DotNet-PFX cert
+      become: no
       unarchive:
         src: https://avalanchebuildsupport.blob.core.windows.net/files/dotnet-pfxcert.zip
         dest: ~/.acdev/tools/dotnet-pfxcert
