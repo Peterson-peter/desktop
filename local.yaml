@@ -5,20 +5,24 @@
   tasks: 
 
     - name: Add Microsoft GPG key
+      become: yes
       apt:
         state: present
         deb: https://packages.microsoft.com/config/ubuntu/18.04/packages-microsoft-prod.deb
 
     - name: Add Microsoft package key
+      become: yes
       apt_key: 
         url: https://packages.microsoft.com/keys/microsoft.asc
         keyring: /etc/apt/trusted.gpg.d/microsoft.gpg
 
     - name: Add docker package key
+      become: yes
       apt_key: 
         url: https://download.docker.com/linux/ubuntu/gpg
 
     - name: Add Microsoft package repository 
+      become: yes
       apt_repository:
         repo: "{{ item }}"
       loop: 
@@ -26,13 +30,13 @@
         -  "deb [arch=amd64] https://packages.microsoft.com/repos/azure-cli/ {{ansible_distribution_release}} main"
     
     - name: Add VScode package respository
+      become: yes
       apt_repository:
         repo: deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main
         state: present
 
-
-
     - name: Enable Universe package respository 
+      become: yes
       apt_repository:
         repo: "{{ item }}"
       loop:
@@ -41,10 +45,12 @@
         - "deb http://security.ubuntu.com/ubuntu/ bionic-security universe"
 
     - name: Update Apt cache
+      become: yes
       apt: 
         update_cache: yes
 
     - name: Add all the packages.
+      become: yes
       apt: 
         name: "{{ packages }}"
       vars:
@@ -64,12 +70,14 @@
 
 
     - name: adding current user to group docker
+      become: yes
       user:
         name={{ lookup('env', "USER") }}
         groups=docker
         append=yes
 
     - name: Install kubectl 
+      become: yes
       command: snap install kubectl --classic
       args:
         creates: /snap/bin/kubectl
@@ -85,49 +93,41 @@
         - ~/.acdev/tools/trusted-certs
 
     - name: Add VScode Liveshare Extention Pack
-      become: false
       command: code --install-extension ms-vsliveshare.vsliveshare-pack
       ags:
         creates: ~/.vscode/extensions/ms-vsliveshare.vsliveshare-pack-0.2.10/package.json
 
     - name: Add VScode Extention C# 
-      become: false
       command: code --install-extension ms-vscode.csharp 
       ags:
         creates: ~/.vscode/extensions/ms-vscode.csharp-1.18.0/package.json
 
     - name: Add VScode Extention Editorconfig
-      become: false
       command: code --install-extension editorconfig.editorconfig
       ags:
         creates: ~/.vscode/extensions/editorconfig.editorconfig-0.13.0/package.json
     
     - name: Add VScode Extention DotNet Test Explorer
-      become: false
       command: code --install-extension formulahendry.dotnet-test-explorer
       ags:
         creates: ~/.vscode/extensions/formulahendry.dotnet-test-explorer-0.6.5/package.json        
 
     - name: Add VScode Extention Docker
-      become: false 
       command: code --install-extension peterjausovec.vscode-docker
       ags:
         creates: ~/.vscode/extensions/peterjausovec.vscode-docker-0.6.1/package.json        
 
     - name: Add VScode Extention LiveShare
-      become: false 
       command: code --install-extension ms-vsliveshare.vsliveshare
       ags:
         creates: ~/.vscode/extensions/ms-vsliveshare.vsliveshare-0.3.1403/package.json      
 
     - name: Add VScode Extention Kubernetes Tools
-      become: false 
       command: code --install-extension ms-kubernetes-tools.vscode-kubernetes-tools
       ags:
         creates: ~/.vscode/extensions/ms-kubernetes-tools.vscode-kubernetes-tools-0.1.18/package.json
 
     - name: Add VScode Extention YAML
-      become: false 
       command: code --install-extension redhat.vscode-yaml
       ags:
         creates:  ~/.vscode/extensions/redhat.vscode-yaml-0.4.0/package.json        
