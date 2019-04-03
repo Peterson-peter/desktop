@@ -79,29 +79,54 @@
         path: ~/.acdev/secrets
         state: directory
         mode: 0644
+    
+    - name: Add VScode Liveshare Extention Pack
+      become: false
+      command: code --install-extension ms-vsliveshare.vsliveshare-pack
+      ags:
+        creates: ~/.vscode/extensions/ms-vsliveshare.vsliveshare-pack-0.2.10/package.json
 
-    - name: Add VScode Extention C#
+    - name: Add VScode Extention C# 
+      become: false
+      command: code --install-extension ms-vscode.csharp 
+      ags:
+        creates: ~/.vscode/extensions/ms-vscode.csharp-1.18.0/package.json
+
+    - name: Add VScode Extention Editorconfig
+      become: false
+      command: code --install-extension editorconfig.editorconfig
+      ags:
+        creates: ~/.vscode/extensions/editorconfig.editorconfig-0.13.0/package.json
+    
+    - name: Add VScode Extention DotNet Test Explorer
+      become: false
+      command: code --install-extension formulahendry.dotnet-test-explorer
+      ags:
+        creates: ~/.vscode/extensions/formulahendry.dotnet-test-explorer-0.6.5/package.json        
+
+    - name: Add VScode Extention Docker
       become: false 
-      command: code --install-extension "{{ item }}"
-      loop:
-        - ms-vscode.csharp
-        - editorconfig.editorconfig
-        - formulahendry.dotnet-test-explorer
-        - peterjausovec.vscode-docker
-        - ms-kubernetes-tools.vscode-kubernetes-tools
-        - ms-vsliveshare.vsliveshare
-        - ms-vsliveshare.vsliveshare-pack
-      args:
-        creates: 
-        -  ~/.vscode/extensions/ms-vsliveshare.vsliveshare-pack-0.2.10/package.json
-        -  ~/.vscode/extensions/editorconfig.editorconfig-0.13.0/package.json
-        -  ~/.vscode/extensions/formulahendry.dotnet-test-explorer-0.6.5/package.json
-        -  ~/.vscode/extensions/karigari.chat-0.12.0/package.json
-        -  ~/.vscode/extensions/ms-kubernetes-tools.vscode-kubernetes-tools-0.1.18/package.json
-        -  ~/.vscode/extensions/ms-vscode.csharp-1.18.0/package.json
-        -  ~/.vscode/extensions/ms-vsliveshare.vsliveshare-0.3.1403/package.json
-        -  ~/.vscode/extensions/peterjausovec.vscode-docker-0.6.1/package.json
-        -  ~/.vscode/extensions/redhat.vscode-yaml-0.4.0/package.json
+      command: code --install-extension peterjausovec.vscode-docker
+      ags:
+        creates: ~/.vscode/extensions/peterjausovec.vscode-docker-0.6.1/package.json        
+
+    - name: Add VScode Extention LiveShare
+      become: false 
+      command: code --install-extension ms-vsliveshare.vsliveshare
+      ags:
+        creates: ~/.vscode/extensions/ms-vsliveshare.vsliveshare-0.3.1403/package.json      
+
+    - name: Add VScode Extention Kubernetes Tools
+      become: false 
+      command: code --install-extension ms-kubernetes-tools.vscode-kubernetes-tools
+      ags:
+        creates: ~/.vscode/extensions/ms-kubernetes-tools.vscode-kubernetes-tools-0.1.18/package.json
+
+    - name: Add VScode Extention YAML
+      become: false 
+      command: code --install-extension redhat.vscode-yaml
+      ags:
+        creates:  ~/.vscode/extensions/redhat.vscode-yaml-0.4.0/package.json        
 
 - name: download secrets info folder
   
