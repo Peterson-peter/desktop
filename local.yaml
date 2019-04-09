@@ -93,43 +93,51 @@
         - ~/.acdev/tools/trusted-certs
 
     - name: Add VScode Liveshare Extention Pack
+      become: no
       command: code --install-extension ms-vsliveshare.vsliveshare-pack
-      ags:
+      args:
         creates: ~/.vscode/extensions/ms-vsliveshare.vsliveshare-pack-0.2.10/package.json
 
     - name: Add VScode Extention C# 
+      become: no
       command: code --install-extension ms-vscode.csharp 
-      ags:
+      args:
         creates: ~/.vscode/extensions/ms-vscode.csharp-1.18.0/package.json
 
     - name: Add VScode Extention Editorconfig
+      become: no
       command: code --install-extension editorconfig.editorconfig
-      ags:
+      args:
         creates: ~/.vscode/extensions/editorconfig.editorconfig-0.13.0/package.json
     
     - name: Add VScode Extention DotNet Test Explorer
+      become: no
       command: code --install-extension formulahendry.dotnet-test-explorer
-      ags:
+      args:
         creates: ~/.vscode/extensions/formulahendry.dotnet-test-explorer-0.6.5/package.json        
 
     - name: Add VScode Extention Docker
+      become: no
       command: code --install-extension peterjausovec.vscode-docker
-      ags:
+      args:
         creates: ~/.vscode/extensions/peterjausovec.vscode-docker-0.6.1/package.json        
 
     - name: Add VScode Extention LiveShare
+      become: no
       command: code --install-extension ms-vsliveshare.vsliveshare
-      ags:
+      args:
         creates: ~/.vscode/extensions/ms-vsliveshare.vsliveshare-0.3.1403/package.json      
 
     - name: Add VScode Extention Kubernetes Tools
+      become: no
       command: code --install-extension ms-kubernetes-tools.vscode-kubernetes-tools
-      ags:
+      args:
         creates: ~/.vscode/extensions/ms-kubernetes-tools.vscode-kubernetes-tools-0.1.18/package.json
 
     - name: Add VScode Extention YAML
+      become: no
       command: code --install-extension redhat.vscode-yaml
-      ags:
+      args:
         creates:  ~/.vscode/extensions/redhat.vscode-yaml-0.4.0/package.json        
 
     - name: Download and install MS cert microsoft-internal-ca.D17697.crt
@@ -160,4 +168,3 @@
         dest: ~/.acdev/tools/dotnet-pfxcert
         mode: 0644
         remote_src: yes
-  
